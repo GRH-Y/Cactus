@@ -114,19 +114,27 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      * 返回上一个fragment界面
      */
     public void backFragment() {
-        finishCurrentFragment();
-        showLastFragment();
+        backFragment(null);
+    }
+
+    public void backFragment(Bundle bundle) {
+        popFragment(fragmentIndex - 1);
+        showLastFragment(bundle);
     }
 
 
     // -------------- backFragment --------------------
 
+    public void backToFirstFragment() {
+        backToFirstFragment(null);
+    }
+
     /**
      * 返回到最底部fragment界面
      */
-    public void backToFirstFragment() {
-        popAllToOneFragment();
-        showLastFragment();
+    public void backToFirstFragment(Bundle bundle) {
+        popFragment(0);
+        showLastFragment(bundle);
     }
 
     // -------------- backToFirstFragment --------------------
@@ -150,7 +158,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      * @param fragmentName 指定搜索的Fragment
      * @return 不存在返回-1，存在返回指定Fragment的在Stack的索引
      */
-    private int findFragmentIndex(String fragmentName) {
+    public int findFragmentIndex(String fragmentName) {
         int index = -1;
         if (fragmentName != null) {
             for (int len = 0; len < fragmentStack.size(); len++) {
@@ -186,24 +194,12 @@ public abstract class ManageFragmentActivity extends BaseActivity {
 
 
     /**
-     * 移除当前界面的fragment
-     */
-    protected void finishCurrentFragment() {
-        int size = fragmentStack.size();
-        if (size > 1) {
-            popFragment(size - 2);
-        }
-    }
-
-    // -------------- popLastFragment --------------------
-
-    /**
      * 退到指定的界面
      *
      * @param index 往后退索引值
      */
     protected void popFragment(int index) {
-        if (index >= 0) {
+        if (index >= -1) {
             index++;
             int size = fragmentStack.size() - index;
             for (int count = 0; count < size; count++) {
@@ -217,30 +213,13 @@ public abstract class ManageFragmentActivity extends BaseActivity {
 
     // -------------- popFragment --------------------
 
-    /**
-     * 移除当前界面的fragment
-     */
-    protected void popAllToOneFragment() {
-        popFragment(0);
-    }
-
-    // -------------- popAllToOneFragment --------------------
-
-    /**
-     * 显示stack倒数第2个Fragment
-     */
-    protected void showLastFragment() {
-        showLastFragment(null);
-    }
-
-    // -------------- showHasFragment --------------------
 
     /**
      * 显示栈顶的fragment，并回调onRefreshFragment()
      *
      * @param bundle
      */
-    protected void showLastFragment(Bundle bundle) {
+    private void showLastFragment(Bundle bundle) {
         int size = fragmentStack.size();
         if (size > 0) {
             BaseFragment fragment = fragmentStack.peek();
@@ -250,7 +229,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
                 fragmentTransaction.show(fragment);
                 fragmentTransaction.commitAllowingStateLoss();
                 getFragmentManager().executePendingTransactions();
-                fragmentIndex = fragmentStack.size() - 1;
+                fragmentIndex = size - 1;
             }
         } else {
             fragmentIndex = -1;
@@ -267,54 +246,13 @@ public abstract class ManageFragmentActivity extends BaseActivity {
     public BaseFragment getCurrentFragment() {
         BaseFragment baseFragment = null;
         if (!fragmentStack.isEmpty()) {
-            baseFragment = fragmentStack.lastElement();
+            baseFragment = fragmentStack.get(fragmentIndex);
         }
         return baseFragment;
     }
 
     // -------------- getCurrentFragment --------------------
 
-    /**
-     * 设置Fragment的标签
-     *
-     * @param tag
-     */
-//    public void setFragmentTag(String tag) {
-//        this.fragmentTag = tag;
-//    }
-
-    // -------------- setFragmentTag --------------------
-
-    /**
-     * 获取当前Fragment标签
-     *
-     * @return
-     */
-//    public String getFragmentTag() {
-//        return this.fragmentTag;
-//    }
-
-    // -------------- getFragmentTag --------------------
-
-//    /**
-//     * 查找stack中是否存在目标Fragment
-//     *
-//     * @param cls
-//     * @return
-//     */
-//    public boolean isTargetFragment(Class<? extends BaseFragment> cls) {
-//        boolean result = false;
-//        if (cls != null) {
-//            BaseFragment fragment = getCurrentFragment();
-//            if (fragment != null) {
-//                String currentTag = fragment.getTag();
-//                result = cls.getName().equalsIgnoreCase(currentTag);
-//            }
-//        }
-//        return result;
-//    }
-
-    // -------------- isTargetFragment --------------------
 
     /**
      * 获取Fragment栈的大小
@@ -366,7 +304,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
     }
 
 
-    // -------------- onKeyDown --------------------
+    // -------------- onKeyDown onBackPressed onTouchEvent--------------------
 
     @Override
     protected void onDestroy() {
