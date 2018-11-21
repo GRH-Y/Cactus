@@ -90,7 +90,13 @@ public class ViewAssignment {
 
                             for (int index = 0; index < ridArray.length; index++) {
                                 View view = getView(ridArray[index], objView);
-                                invoke(view, methodArray[index], value);
+                                String method ;
+                                if (index > methodArray.length - 1) {
+                                    method = methodArray[0];
+                                } else {
+                                    method = methodArray[index];
+                                }
+                                invoke(view, method, value);
                             }
                         }
                     }

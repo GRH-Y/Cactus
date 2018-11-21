@@ -14,7 +14,7 @@ public class ConvertResult implements IResponseConvert {
         if (result.startsWith("<?xml")) {
             entity = XmlParser.parserToEntity(result, resultCls);
         } else {
-            entity = JsonUtils.toEntity(resultCls, result);
+            entity = JsonUtils.toNewEntity(resultCls, result);
         }
         return entity;
     }

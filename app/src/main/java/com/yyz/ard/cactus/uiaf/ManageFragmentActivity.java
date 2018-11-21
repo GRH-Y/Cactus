@@ -79,13 +79,13 @@ public abstract class ManageFragmentActivity extends BaseActivity {
                 String fragmentTag = fragment.getClass().getName();
                 fragment.setArguments(bundle);
                 fragmentTransaction.add(containerViewId, fragment, fragmentTag);
-                fragmentTransaction.commit();
+                fragmentTransaction.commitAllowingStateLoss();
                 getFragmentManager().executePendingTransactions();
                 fragmentStack.add(fragment);
                 fragmentIndex = fragmentStack.size() - 1;
             } else {
                 fragmentTransaction.show(fragment);
-                fragmentTransaction.commit();
+                fragmentTransaction.commitAllowingStateLoss();
                 getFragmentManager().executePendingTransactions();
                 fragmentIndex = findFragmentIndex(fragment.getClass().getName());
             }
@@ -103,7 +103,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.hide(fragment);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
             getFragmentManager().executePendingTransactions();
         }
     }
@@ -156,7 +156,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
             for (int len = 0; len < fragmentStack.size(); len++) {
                 BaseFragment fragment = fragmentStack.get(len);
                 String tag = fragment.getTag();
-                if (fragmentName.equalsIgnoreCase(tag)) {
+                if (fragmentName.equals(tag)) {
                     index = len;
                     break;
                 }
@@ -190,7 +190,9 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      */
     protected void finishCurrentFragment() {
         int size = fragmentStack.size();
-        popFragment(size - 2);
+        if (size > 1) {
+            popFragment(size - 2);
+        }
     }
 
     // -------------- popLastFragment --------------------
@@ -201,13 +203,13 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      * @param index 往后退索引值
      */
     protected void popFragment(int index) {
-        if (index >= -1) {
+        if (index >= 0) {
             index++;
             int size = fragmentStack.size() - index;
             for (int count = 0; count < size; count++) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(fragmentStack.pop());
-                fragmentTransaction.commit();
+                fragmentTransaction.commitAllowingStateLoss();
                 getFragmentManager().executePendingTransactions();
             }
         }
@@ -246,7 +248,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
             if (hasWindowFocus()) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.show(fragment);
-                fragmentTransaction.commit();
+                fragmentTransaction.commitAllowingStateLoss();
                 getFragmentManager().executePendingTransactions();
                 fragmentIndex = fragmentStack.size() - 1;
             }
@@ -349,7 +351,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
     public void onBackPressed() {
         BaseFragment baseFragment = getCurrentFragment();
         if (baseFragment != null) {
-           baseFragment.onBackPressed();
+            baseFragment.onBackPressed();
         }
         super.onBackPressed();
     }

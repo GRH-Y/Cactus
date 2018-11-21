@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: hover_release_v2:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hover_release_v2.aar/b4e2925cc7e92f177218c236ade04d75/jars/libs/CurrencyThreadTask.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hover_release_v2.aar/b4e2925cc7e92f177218c236ade04d75/jars/libs/JavaUtils.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hover_release_v2.aar/b4e2925cc7e92f177218c236ade04d75/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hover_release_v2.aar/b4e2925cc7e92f177218c236ade04d75/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

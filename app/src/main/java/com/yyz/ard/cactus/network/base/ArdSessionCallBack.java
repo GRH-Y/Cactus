@@ -58,32 +58,13 @@ public class ArdSessionCallBack extends JavSessionCallBack {
     }
 
 
-    @Override
-    public void recycle() {
-        handler = null;
-        super.recycle();
-    }
-
 
     @Override
-    public void notifySuccessMessage(RequestEntity entity) {
+    public void notifyMessage(RequestEntity entity) {
         if (handler != null && entity != null) {
             if (entity.getCallBackTarget() == null) {
                 entity.setCallBackTarget(target);
             }
-            Message msg = Message.obtain();
-            msg.obj = entity;
-            handler.sendMessage(msg);
-        }
-    }
-
-    @Override
-    public void notifyErrorMessage(RequestEntity entity) {
-        if (handler != null && entity != null) {
-            if (entity.getCallBackTarget() == null) {
-                entity.setCallBackTarget(target);
-            }
-            entity.setResultStatus(false);
             Message msg = Message.obtain();
             msg.obj = entity;
             handler.sendMessage(msg);
@@ -107,7 +88,7 @@ public class ArdSessionCallBack extends JavSessionCallBack {
         @Override
         public void handleMessage(Message msg) {
             RequestEntity entity = (RequestEntity) msg.obj;
-            if (entity.isAutoSetDataForView()) {
+            if (entity.isAutoSetDataForView() && entity.getResultData() != null) {
                 Object object = entity.getViewTarget();
                 if (object == null) {
                     object = viewTarget;
@@ -118,7 +99,7 @@ public class ArdSessionCallBack extends JavSessionCallBack {
                 ViewAssignment.setViewData(object, entity.getResultData());
             }
 
-            String methodName = entity.isResultStatus() ? entity.getSuccessMethodName() : entity.getErrorMethodName();
+            String methodName = entity.getResultData() != null ? entity.getSuccessMethodName() : entity.getErrorMethodName();
             ThreadAnnotation.disposeMessage(methodName, entity.getCallBackTarget(), entity.getResultData());
         }
     }
