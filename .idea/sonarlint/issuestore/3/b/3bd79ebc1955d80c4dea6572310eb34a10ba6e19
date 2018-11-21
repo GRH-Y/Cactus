@@ -1,19 +1,0 @@
-
-]squid:UnusedPrivateMethod":Remove this unused private "classNameToClassValue" method.(Ìƒ”£
-]squid:UnusedPrivateMethod"5Remove this unused private "classNameToClass" method.(Õ‚Íıÿÿÿÿ
-‚squid:S4165"hRemove this useless assignment; "methodName" already holds the assigned value along all execution paths.(…½Œßúÿÿÿÿ
-^squid:S2583"DChange this condition so that it does not always evaluate to "false"(“à‰êúÿÿÿÿ
-^squid:S2583"DChange this condition so that it does not always evaluate to "false"(…½Œßúÿÿÿÿ
-Osquid:S1141"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
-gsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(–ã•×
-lsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(ÍƒüÈúÿÿÿÿ
-Osquid:S1118":Add a private constructor to hide the implicit public one.(ş€öÎ
-;squid:S1168"&Return an empty array instead of null.(¥¹ï
-[squid:S00112"FDefine and throw a dedicated exception instead of using a generic one.(§„H
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
