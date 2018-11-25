@@ -1,4 +1,4 @@
-package com.yyz.ard.cactus.network.base;
+package com.yyz.ard.cactus.network;
 
 
 import android.app.Activity;
