@@ -1,7 +1,7 @@
-package com.yyz.ard.cactus.adapter.dialog;
+package com.yyz.ard.cactus.dialog;
 
-import com.yyz.ard.cactus.adapter.dialog.joggle.ICurrencyDialog;
-import com.yyz.ard.cactus.adapter.dialog.joggle.IDialogController;
+import com.yyz.ard.cactus.dialog.joggle.ICurrencyDialog;
+import com.yyz.ard.cactus.dialog.joggle.IDialogController;
 
 /**
  * 通用的dialog

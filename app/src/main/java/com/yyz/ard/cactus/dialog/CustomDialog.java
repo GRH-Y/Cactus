@@ -1,9 +1,9 @@
-package com.yyz.ard.cactus.adapter.dialog;
+package com.yyz.ard.cactus.dialog;
 
 import android.app.Dialog;
 
-import com.yyz.ard.cactus.adapter.dialog.joggle.ICustomDialog;
-import com.yyz.ard.cactus.adapter.dialog.joggle.IDialogController;
+import com.yyz.ard.cactus.dialog.joggle.ICustomDialog;
+import com.yyz.ard.cactus.dialog.joggle.IDialogController;
 import com.yyz.ard.cactus.uiaf.FindView;
 
 import java.lang.reflect.Method;

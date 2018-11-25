@@ -1,10 +1,10 @@
-package com.yyz.ard.cactus.adapter.dialog;
+package com.yyz.ard.cactus.dialog;
 
 import android.app.Dialog;
 
-import com.yyz.ard.cactus.adapter.dialog.joggle.IBaseDialog;
-import com.yyz.ard.cactus.adapter.dialog.joggle.ICurrencyDialog;
-import com.yyz.ard.cactus.adapter.dialog.joggle.IDialogController;
+import com.yyz.ard.cactus.dialog.joggle.IBaseDialog;
+import com.yyz.ard.cactus.dialog.joggle.ICurrencyDialog;
+import com.yyz.ard.cactus.dialog.joggle.IDialogController;
 
 public class EasyDialog {
     private EasyDialog() {
@@ -17,7 +17,7 @@ public class EasyDialog {
         config.setDialog(dialog);
         if (baseDialog instanceof ICurrencyDialog) {
 
-        } 
+        }
         IDialogController controller = baseDialog.getDialogController();
         if (controller != null) {
             controller.onController(dialog);

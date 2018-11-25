@@ -1,7 +1,7 @@
-package com.yyz.ard.cactus.adapter.dialog.joggle;
+package com.yyz.ard.cactus.dialog.joggle;
 
 
-import com.yyz.ard.cactus.adapter.dialog.DialogConfig;
+import com.yyz.ard.cactus.dialog.DialogConfig;
 
 public interface IBaseDialog {
 

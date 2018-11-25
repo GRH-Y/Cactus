@@ -1,4 +1,4 @@
-package com.yyz.ard.cactus.adapter.dialog.joggle;
+package com.yyz.ard.cactus.dialog.joggle;
 
 public interface ICurrencyDialog extends IBaseDialog {
 

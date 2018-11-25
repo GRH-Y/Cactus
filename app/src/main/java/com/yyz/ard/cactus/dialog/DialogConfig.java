@@ -1,4 +1,4 @@
-package com.yyz.ard.cactus.adapter.dialog;
+package com.yyz.ard.cactus.dialog;
 
 
 import android.app.Dialog;
@@ -7,9 +7,9 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 
-import com.yyz.ard.cactus.adapter.dialog.joggle.ICurrencyDialog;
-import com.yyz.ard.cactus.adapter.dialog.joggle.ICustomDialog;
-import com.yyz.ard.cactus.adapter.dialog.joggle.IDialogController;
+import com.yyz.ard.cactus.dialog.joggle.ICurrencyDialog;
+import com.yyz.ard.cactus.dialog.joggle.ICustomDialog;
+import com.yyz.ard.cactus.dialog.joggle.IDialogController;
 
 public class DialogConfig {
 
