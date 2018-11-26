@@ -3,8 +3,8 @@ package com.yyz.ard.cactus.network;
 
 import com.yyz.ard.cactus.xml.XmlParser;
 
-import connect.json.JsonUtils;
 import connect.network.http.joggle.IResponseConvert;
+import json.JsonUtils;
 
 public class ConvertResult implements IResponseConvert {
 
@@ -14,7 +14,7 @@ public class ConvertResult implements IResponseConvert {
         if (result.startsWith("<?xml")) {
             entity = XmlParser.parserToEntity(result, resultCls);
         } else {
-            entity = JsonUtils.toNewEntity(resultCls, result);
+            entity = JsonUtils.toEntity(resultCls, result);
         }
         return entity;
     }

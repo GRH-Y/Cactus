@@ -12,6 +12,7 @@ import com.yyz.ard.cactus.uiaf.ViewAssignment;
 
 import connect.network.base.JavSessionCallBack;
 import connect.network.base.RequestEntity;
+import connect.network.http.JavHttpConnect;
 import task.message.ThreadAnnotation;
 
 
@@ -58,7 +59,6 @@ public class ArdSessionCallBack extends JavSessionCallBack {
     }
 
 
-
     @Override
     public void notifyMessage(RequestEntity entity) {
         if (handler != null && entity != null) {
@@ -99,8 +99,16 @@ public class ArdSessionCallBack extends JavSessionCallBack {
                 ViewAssignment.setViewData(object, entity.getResultData());
             }
 
-            String methodName = entity.getResultData() != null ? entity.getSuccessMethodName() : entity.getErrorMethodName();
-            ThreadAnnotation.disposeMessage(methodName, entity.getCallBackTarget(), entity.getResultData());
+            String methodName;
+            Object resultData;
+            if (entity.getResultData() == null) {
+                methodName = entity.getErrorMethodName();
+                resultData = entity;
+            } else {
+                methodName = entity.getSuccessMethodName();
+                resultData = entity.getResultData();
+            }
+            ThreadAnnotation.disposeMessage(methodName, entity.getCallBackTarget(), resultData);
         }
     }
 }

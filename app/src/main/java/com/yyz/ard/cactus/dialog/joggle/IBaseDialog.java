@@ -1,12 +1,10 @@
 package com.yyz.ard.cactus.dialog.joggle;
 
 
-import com.yyz.ard.cactus.dialog.DialogConfig;
+import com.yyz.ard.cactus.dialog.EasyDialogConfig;
 
 public interface IBaseDialog {
 
-    DialogConfig getDialogConfig();
-
-    IDialogController getDialogController();
+    EasyDialogConfig getDialogConfig();
 
 }
