@@ -12,7 +12,6 @@ import com.yyz.ard.cactus.uiaf.ViewAssignment;
 
 import connect.network.base.JavSessionCallBack;
 import connect.network.base.RequestEntity;
-import connect.network.http.JavHttpConnect;
 import task.message.ThreadAnnotation;
 
 
