@@ -2,6 +2,7 @@ package com.yyz.ard.cactus.uiaf;
 
 
 import android.app.Activity;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
@@ -146,6 +147,7 @@ public class FindView {
             try {
                 Class clx = view.getClass();
                 Method method = mCache.getMethod(clx, "setText", int.class);
+//                Method method = mCache.getMethod(clx, "setText", int.class);
                 method.invoke(view, text);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -159,7 +161,8 @@ public class FindView {
         if (view != null) {
             try {
                 Class clx = view.getClass();
-                Method method = clx.getMethod("setText", CharSequence.class);
+                Method method = mCache.getMethod(clx, "setText", CharSequence.class);
+//                Method method = clx.getMethod("setText", CharSequence.class);
                 method.invoke(view, text);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -168,12 +171,29 @@ public class FindView {
         return view;
     }
 
+    public <T extends View> T setViewColor(@IdRes int resId, @ColorRes int color) {
+        T view = findViewById(resId);
+        if (view != null) {
+            try {
+                Class clx = view.getClass();
+                Method method = mCache.getMethod(clx, "setTextColor", int.class);
+//                Method method = clx.getMethod("setTextColor", int.class);
+                method.invoke(view, color);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return view;
+    }
+
+
     public <T extends View> T setViewImageResource(@IdRes int resId, @DrawableRes int imageId) {
         T view = findViewById(resId);
         if (view != null) {
             try {
                 Class clx = view.getClass();
                 Method method = mCache.getMethod(clx, "setImageResource", int.class);
+//                Method method = mCache.getMethod(clx, "setImageResource", int.class);
                 method.invoke(view, imageId);
             } catch (Exception e) {
                 e.printStackTrace();

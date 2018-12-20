@@ -3,10 +3,8 @@ package com.yyz.ard.cactus.uiaf;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.yyz.ard.cactus.R;
 import com.yyz.ard.cactus.uiaf.joggle.AFindViewById;
 import com.yyz.hover.Hover;
 
@@ -35,11 +32,45 @@ import util.StringUtils;
  */
 public class ViewAssignment {
 
-    private static Class mRSClass;
+//    private static Class mRSClass;
+//
+//    public static void setRStringClass(Class rsClass) {
+//        ViewAssignment.mRSClass = rsClass;
+//    }
 
-    public static void setRStringClass(Class rsClass) {
-        ViewAssignment.mRSClass = rsClass;
+    private ViewAssignment() {
     }
+
+    /**
+     * 获取view里所有的控件
+     *
+     * @param layoutId layout 资源id
+     * @return
+     */
+    public static View[] findViewAllChild(Context context, @LayoutRes int layoutId) {
+        View layout = View.inflate(context, layoutId, null);
+        ViewGroup viewGroup = (ViewGroup) layout;
+        return findViewAllChild(viewGroup);
+    }
+
+    /**
+     * 获取view里所有的控件
+     *
+     * @param viewGroup
+     * @return
+     */
+    public static View[] findViewAllChild(ViewGroup viewGroup) {
+        if (viewGroup == null) {
+            return null;
+        }
+        int count = viewGroup.getChildCount();
+        View[] children = new View[count];
+        for (int index = 0; index < count; index++) {
+            children[index] = viewGroup.getChildAt(index);
+        }
+        return children;
+    }
+
 
     /**
      * 自动查找控件并且设置值
@@ -90,7 +121,7 @@ public class ViewAssignment {
 
                             for (int index = 0; index < ridArray.length; index++) {
                                 View view = getView(ridArray[index], objView);
-                                String method ;
+                                String method;
                                 if (index > methodArray.length - 1) {
                                     method = methodArray[0];
                                 } else {
@@ -119,88 +150,8 @@ public class ViewAssignment {
     }
 
 
-    /**
-     * 获取view里所有的控件
-     *
-     * @param layoutId layout 资源id
-     * @return
-     */
-    public static View[] findViewAllChild(Context context, @LayoutRes int layoutId) {
-        View layout = View.inflate(context, layoutId, null);
-        ViewGroup viewGroup = (ViewGroup) layout;
-        return findViewAllChild(viewGroup);
-    }
 
-    /**
-     * 获取view里所有的控件
-     *
-     * @param viewGroup
-     * @return
-     */
-    public static View[] findViewAllChild(ViewGroup viewGroup) {
-        if (viewGroup == null) {
-            return null;
-        }
-        int count = viewGroup.getChildCount();
-        View[] children = new View[count];
-        for (int index = 0; index < count; index++) {
-            children[index] = viewGroup.getChildAt(index);
-        }
-        return children;
-    }
-
-
-    public static void setViewData(Activity activity, @IdRes int id, String methodName, Object value) {
-        View view = activity.findViewById(id);
-        invoke(view, methodName, value);
-    }
-
-    public static void setViewData(View view, @IdRes int id, String methodName, Object value) {
-        View v = view.findViewById(id);
-        invoke(v, methodName, value);
-    }
-
-    public static void setViewData(Window window, @IdRes int id, String methodName, Object value) {
-        View view = window.findViewById(id);
-        invoke(view, methodName, value);
-    }
-
-    public static int getRid(String viewName) {
-        try {
-            Field field = R.id.class.getDeclaredField(viewName);
-            return (int) field.get(R.id.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public static boolean isRidString(@StringRes int ridStr) {
-        try {
-            if (mRSClass != null) {
-                Field[] fields = mRSClass.getFields();
-                for (Field field : fields) {
-                    int rid = (int) field.get(R.string.class);
-                    if (rid == ridStr) {
-                        return true;
-                    }
-                }
-
-            }
-            Field[] fields = R.string.class.getFields();
-            for (Field field : fields) {
-                int rid = (int) field.get(R.string.class);
-                if (rid == ridStr) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static View getView(int rid, Object object) {
+    private static View getView(int rid, Object object) {
         View view = null;
         if (object instanceof Activity) {
             view = ((Activity) object).findViewById(rid);
@@ -267,64 +218,118 @@ public class ViewAssignment {
             } else {
                 methodName = methodName == null ? "setText" : methodName;
                 Method method = null;
-                if (value instanceof Integer && isRidString((Integer) value)) {
+                if (value instanceof Integer) {
                     method = cache.getMethod(clx, methodName, int.class);
                 }
                 if (method == null) {
                     method = cache.getMethod(clx, methodName, CharSequence.class);
                     value = value == null ? "" : String.valueOf(value);
                 }
-                method.setAccessible(true);
-                method.invoke(view, value);
+                if (method != null) {
+                    method.setAccessible(true);
+                    method.invoke(view, value);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static Object classNameToClassValue(String typeSimpleName, String value) {
-        Object object = null;
-        if (Integer.class.getName().contains(typeSimpleName) || int.class.getName().contains(typeSimpleName)) {
-            object = Integer.parseInt(value);
-        } else if (Double.class.getName().contains(typeSimpleName) || double.class.getName().contains(typeSimpleName)) {
-            object = Double.parseDouble(value);
-        } else if (Long.class.getName().contains(typeSimpleName) || long.class.getName().contains(typeSimpleName)) {
-            object = Long.parseLong(value);
-        } else if (Boolean.class.getName().contains(typeSimpleName) || boolean.class.getName().contains(typeSimpleName)) {
-            object = Boolean.parseBoolean(value);
-        } else if (Float.class.getName().contains(typeSimpleName) || float.class.getName().contains(typeSimpleName)) {
-            object = Float.parseFloat(value);
-        } else if (String.class.getName().contains(typeSimpleName)) {
-            object = value;
-        }
-        return object;
-    }
 
-    private static Class classNameToClass(String typeSimpleName) {
-        Class object = null;
-        if (Integer.class.getName().contains(typeSimpleName)) {
-            object = Integer.class;
-        } else if (int.class.getName().contains(typeSimpleName)) {
-            object = int.class;
-        } else if (Double.class.getName().contains(typeSimpleName)) {
-            object = Double.class;
-        } else if (double.class.getName().contains(typeSimpleName)) {
-            object = double.class;
-        } else if (Long.class.getName().contains(typeSimpleName)) {
-            object = Long.class;
-        } else if (long.class.getName().contains(typeSimpleName)) {
-            object = long.class;
-        } else if (Boolean.class.getName().contains(typeSimpleName)) {
-            object = Boolean.class;
-        } else if (boolean.class.getName().contains(typeSimpleName)) {
-            object = boolean.class;
-        } else if (Float.class.getName().contains(typeSimpleName)) {
-            object = Float.class;
-        } else if (float.class.getName().contains(typeSimpleName)) {
-            object = float.class;
-        } else if (String.class.getName().contains(typeSimpleName)) {
-            object = String.class;
-        }
-        return object;
-    }
+
+//    public static void setViewData(Activity activity, @IdRes int id, String methodName, Object value) {
+//        View view = activity.findViewById(id);
+//        invoke(view, methodName, value);
+//    }
+//
+//    public static void setViewData(View view, @IdRes int id, String methodName, Object value) {
+//        View v = view.findViewById(id);
+//        invoke(v, methodName, value);
+//    }
+//
+//    public static void setViewData(Window window, @IdRes int id, String methodName, Object value) {
+//        View view = window.findViewById(id);
+//        invoke(view, methodName, value);
+//    }
+
+//    public static int getRid(String viewName) {
+//        try {
+//            Field field = R.id.class.getDeclaredField(viewName);
+//            return (int) field.get(R.id.class);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return -1;
+//    }
+
+//    public static boolean isRidString(@StringRes int ridStr) {
+//        try {
+//            if (mRSClass != null) {
+//                Field[] fields = mRSClass.getFields();
+//                for (Field field : fields) {
+//                    int rid = (int) field.get(R.string.class);
+//                    if (rid == ridStr) {
+//                        return true;
+//                    }
+//                }
+//
+//            }
+//            Field[] fields = R.string.class.getFields();
+//            for (Field field : fields) {
+//                int rid = (int) field.get(R.string.class);
+//                if (rid == ridStr) {
+//                    return true;
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
+
+//    private static Object classNameToClassValue(String typeSimpleName, String value) {
+//        Object object = null;
+//        if (Integer.class.getName().contains(typeSimpleName) || int.class.getName().contains(typeSimpleName)) {
+//            object = Integer.parseInt(value);
+//        } else if (Double.class.getName().contains(typeSimpleName) || double.class.getName().contains(typeSimpleName)) {
+//            object = Double.parseDouble(value);
+//        } else if (Long.class.getName().contains(typeSimpleName) || long.class.getName().contains(typeSimpleName)) {
+//            object = Long.parseLong(value);
+//        } else if (Boolean.class.getName().contains(typeSimpleName) || boolean.class.getName().contains(typeSimpleName)) {
+//            object = Boolean.parseBoolean(value);
+//        } else if (Float.class.getName().contains(typeSimpleName) || float.class.getName().contains(typeSimpleName)) {
+//            object = Float.parseFloat(value);
+//        } else if (String.class.getName().contains(typeSimpleName)) {
+//            object = value;
+//        }
+//        return object;
+//    }
+//
+//    private static Class classNameToClass(String typeSimpleName) {
+//        Class object = null;
+//        if (Integer.class.getName().contains(typeSimpleName)) {
+//            object = Integer.class;
+//        } else if (int.class.getName().contains(typeSimpleName)) {
+//            object = int.class;
+//        } else if (Double.class.getName().contains(typeSimpleName)) {
+//            object = Double.class;
+//        } else if (double.class.getName().contains(typeSimpleName)) {
+//            object = double.class;
+//        } else if (Long.class.getName().contains(typeSimpleName)) {
+//            object = Long.class;
+//        } else if (long.class.getName().contains(typeSimpleName)) {
+//            object = long.class;
+//        } else if (Boolean.class.getName().contains(typeSimpleName)) {
+//            object = Boolean.class;
+//        } else if (boolean.class.getName().contains(typeSimpleName)) {
+//            object = boolean.class;
+//        } else if (Float.class.getName().contains(typeSimpleName)) {
+//            object = Float.class;
+//        } else if (float.class.getName().contains(typeSimpleName)) {
+//            object = float.class;
+//        } else if (String.class.getName().contains(typeSimpleName)) {
+//            object = String.class;
+//        }
+//        return object;
+//    }
 }

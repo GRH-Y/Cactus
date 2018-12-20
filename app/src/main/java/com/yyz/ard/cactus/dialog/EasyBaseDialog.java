@@ -2,11 +2,9 @@ package com.yyz.ard.cactus.dialog;
 
 import android.app.Dialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.yyz.ard.cactus.dialog.joggle.IBaseDialog;
-import com.yyz.ard.cactus.uiaf.FindView;
 
 import java.lang.reflect.Method;
 
@@ -18,9 +16,7 @@ import util.StringUtils;
  */
 public class EasyBaseDialog implements IBaseDialog {
 
-
     private EasyDialogConfig config;
-
     private Object clickListener = null;
     private Dialog dialog = null;
     private Object data;

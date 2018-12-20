@@ -1,7 +1,6 @@
 package com.yyz.ard.cactus.adapter;
 
 
-import android.support.annotation.Keep;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,6 @@ import java.util.Map;
  *
  * @author yyz
  */
-@Keep
 public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperRecyclerHolder> {
 
     private List<Object> mAdapterData = new ArrayList<>();
@@ -82,21 +80,18 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
 
     //---------------------- Listener ---------------------------
 
-    @Keep
     public void setAdapterData(List<Object> data) {
         mAdapterData.clear();
         mAdapterData.addAll(data);
         notifyDataSetChanged();
     }
 
-    @Keep
     public void setAdapterData(Collection<Object> data) {
         mAdapterData.clear();
         mAdapterData.addAll(data);
         notifyDataSetChanged();
     }
 
-    @Keep
     public void setAdapterData(Object data) {
         if (data instanceof Collection) {
             setAdapterData((Collection) data);
@@ -109,7 +104,6 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
         return mAdapterData;
     }
 
-    @Keep
     public void addAllData(List<Object> data) {
         if (data != null && !data.isEmpty()) {
             this.mAdapterData.addAll(data);
@@ -118,7 +112,6 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
         }
     }
 
-    @Keep
     public void addAllData(Object[] data) {
         if (data != null && data.length > 0) {
             for (Object tmp : data) {
@@ -130,7 +123,6 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
         }
     }
 
-    @Keep
     public void addAllData(Collection<Object> data) {
         if (data != null && !data.isEmpty()) {
             this.mAdapterData.addAll(data);
@@ -139,7 +131,6 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
         }
     }
 
-    @Keep
     public void addAllData(Object data) {
         if (data instanceof List) {
             addAllData((List<Object>) data);
@@ -150,7 +141,6 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
         }
     }
 
-    @Keep
     public void addAllData(int position, List<Object> data) {
         if (data != null && !data.isEmpty()) {
             this.mAdapterData.addAll(position, data);
@@ -159,12 +149,10 @@ public abstract class SupperRecyclerAdapter extends RecyclerView.Adapter<SupperR
         }
     }
 
-    @Keep
     public void addItem(Object obj) {
         addItem(getActualItemCount(), obj);
     }
 
-    @Keep
     public void addItem(int position, Object obj) {
         mAdapterData.add(position, obj);
         position = mLoadMoreView == null ? position : position + 1;

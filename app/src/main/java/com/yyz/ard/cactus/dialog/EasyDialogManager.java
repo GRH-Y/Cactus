@@ -9,6 +9,7 @@ public class EasyDialogManager {
     public static void showDialog(EasyBaseDialog baseDialog) {
         EasyDialogConfig config = baseDialog.getDialogConfig();
         Dialog dialog = new Dialog(config.getContext(), config.getThemeResId());
+        dialog.setCancelable(false);
         dialog.setContentView(config.getLayout());
         baseDialog.setDialog(dialog);
         baseDialog.onController(dialog);

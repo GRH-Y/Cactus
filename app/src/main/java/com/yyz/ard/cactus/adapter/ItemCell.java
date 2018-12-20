@@ -3,8 +3,6 @@ package com.yyz.ard.cactus.adapter;
 
 import com.yyz.ard.cactus.uiaf.FindView;
 
-import java.util.List;
-
 /**
  * @className: ItemCell
  * @classDescription:
