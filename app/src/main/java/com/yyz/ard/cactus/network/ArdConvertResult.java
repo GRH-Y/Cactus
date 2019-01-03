@@ -7,11 +7,11 @@ import connect.network.base.JavConvertResult;
 import json.JsonUtils;
 import util.LogDog;
 
-public class ConvertResult extends JavConvertResult {
+public class ArdConvertResult extends JavConvertResult {
 
     @Override
     public Object handlerEntity(Class resultCls, byte[] result) {
-        if (resultCls == null && result == null) {
+        if (resultCls == null || result == null) {
             return null;
         }
         String jsonStr = new String(result);
