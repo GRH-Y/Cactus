@@ -19,7 +19,7 @@ import java.util.List;
  * @author yyz
  * @date 4/6/16.
  */
-public abstract class SupperListAdapter<T> extends BaseAdapter {
+public abstract class SupperBaseAdapter<T> extends BaseAdapter {
     private List<T> adapterData = new ArrayList<>();
     private IListViewBindViewListener<T> listener = null;
     private boolean isOpenAutoFindView = true;
