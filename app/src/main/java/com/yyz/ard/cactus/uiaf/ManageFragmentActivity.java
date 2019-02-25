@@ -2,6 +2,7 @@ package com.yyz.ard.cactus.uiaf;
 
 
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.KeyEvent;
@@ -79,7 +80,11 @@ public abstract class ManageFragmentActivity extends BaseActivity {
                 String fragmentTag = fragment.getClass().getName();
                 fragment.setArguments(bundle);
                 fragmentTransaction.add(containerViewId, fragment, fragmentTag);
-                fragmentTransaction.commitAllowingStateLoss();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    fragmentTransaction.commitNowAllowingStateLoss();
+                } else {
+                    fragmentTransaction.commitAllowingStateLoss();
+                }
                 getFragmentManager().executePendingTransactions();
                 fragmentStack.add(fragment);
                 fragmentIndex = fragmentStack.size() - 1;
@@ -103,7 +108,11 @@ public abstract class ManageFragmentActivity extends BaseActivity {
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.hide(fragment);
-            fragmentTransaction.commitAllowingStateLoss();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                fragmentTransaction.commitNowAllowingStateLoss();
+            } else {
+                fragmentTransaction.commitAllowingStateLoss();
+            }
             getFragmentManager().executePendingTransactions();
         }
     }
@@ -205,7 +214,11 @@ public abstract class ManageFragmentActivity extends BaseActivity {
             for (int count = 0; count < size; count++) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(fragmentStack.pop());
-                fragmentTransaction.commitAllowingStateLoss();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    fragmentTransaction.commitNowAllowingStateLoss();
+                } else {
+                    fragmentTransaction.commitAllowingStateLoss();
+                }
                 getFragmentManager().executePendingTransactions();
             }
         }
@@ -227,7 +240,11 @@ public abstract class ManageFragmentActivity extends BaseActivity {
             if (hasWindowFocus()) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.show(fragment);
-                fragmentTransaction.commitAllowingStateLoss();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    fragmentTransaction.commitNowAllowingStateLoss();
+                } else {
+                    fragmentTransaction.commitAllowingStateLoss();
+                }
                 getFragmentManager().executePendingTransactions();
                 fragmentIndex = size - 1;
             }

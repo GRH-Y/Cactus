@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.Window;
 
+import com.yyz.ard.cactus.uiaf.SingleHandler;
 import com.yyz.ard.cactus.uiaf.ViewAssignment;
 
 import connect.network.base.JavSessionCallBack;
@@ -57,9 +58,8 @@ public class ArdSessionCallBack extends JavSessionCallBack {
                 object instanceof android.support.v4.app.Fragment || object instanceof android.app.Fragment;
     }
 
-
     @Override
-    public void notifyMessage(RequestEntity entity) {
+    public void notifyData(RequestEntity entity) {
         if (handler != null && entity != null) {
             if (entity.getCallBackTarget() == null) {
                 entity.setCallBackTarget(target);
@@ -70,6 +70,10 @@ public class ArdSessionCallBack extends JavSessionCallBack {
         }
     }
 
+    @Override
+    public void notifyProcess(RequestEntity entity, int process, int maxProcess, boolean isOver) {
+        SingleHandler.getInstance().getHandler().post(() -> super.notifyProcess(entity, process, maxProcess, isOver));
+    }
 
     private static class FindViewByIdHandler extends Handler {
 

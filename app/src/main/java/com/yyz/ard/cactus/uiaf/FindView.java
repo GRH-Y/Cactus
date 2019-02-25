@@ -92,16 +92,19 @@ public class FindView {
      * @return view对象
      */
     public <T extends View> T findViewById(@IdRes int resId) {
-        T view = (T) mViews.get(resId);
-        if (view == null) {
-            if (mLayout != null) {
-                view = mLayout.findViewById(resId);
-            }
-            if (mActivity != null && view == null) {
-                view = mActivity.findViewById(resId);
-            }
-            if (view != null) {
-                mViews.put(resId, view);
+        T view = null;
+        if (mViews != null) {
+            view = (T) mViews.get(resId);
+            if (view == null) {
+                if (mLayout != null) {
+                    view = mLayout.findViewById(resId);
+                }
+                if (mActivity != null && view == null) {
+                    view = mActivity.findViewById(resId);
+                }
+                if (view != null) {
+                    mViews.put(resId, view);
+                }
             }
         }
         return view;
@@ -234,16 +237,18 @@ public class FindView {
 
     public <T extends View> T setVisibility(@IdRes int resId, boolean isVisible) {
         T view = findViewById(resId);
-        boolean currentState = view.getVisibility() == View.VISIBLE;
-        if (currentState != isVisible) {
-            view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        if (view != null) {
+            boolean currentState = view.getVisibility() == View.VISIBLE;
+            if (currentState != isVisible) {
+                view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+            }
         }
         return view;
     }
 
     public <T extends View> T setVisibile(@IdRes int resId) {
         T view = findViewById(resId);
-        if (view.getVisibility() != View.VISIBLE) {
+        if (view != null && view.getVisibility() != View.VISIBLE) {
             view.setVisibility(View.VISIBLE);
         }
         return view;
@@ -251,7 +256,7 @@ public class FindView {
 
     public <T extends View> T setGone(@IdRes int resId) {
         T view = findViewById(resId);
-        if (view.getVisibility() != View.GONE) {
+        if (view != null && view.getVisibility() != View.GONE) {
             view.setVisibility(View.GONE);
         }
         return view;

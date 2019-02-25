@@ -3,14 +3,17 @@ apply plugin: 'com.android.library'
 
 def version = 1
 
+def releaseVersionCode = 11
+def releaseVersionName = "1.2"
+
 android {
     compileSdkVersion 28
     defaultConfig {
 //        applicationId "com.yyz.ard.cactus"
         minSdkVersion 15
 //        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode releaseVersionCode
+        versionName releaseVersionName
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -52,6 +55,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:design:28.0.0'
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
     //    implementation(name: 'hover_release_v2', ext: 'aar')
     implementation files('libs/CurrencyNetConnect.jar')
     implementation files('libs/Hover_v2.jar')
@@ -60,16 +64,16 @@ dependencies {
 
 //打jar包
 task makeJar(type: Copy) {
-    delete 'build/jarLibs/Cactus_v1.jar'
+    delete 'build/jarLibs/'
     from('build/intermediates/packaged-classes/debug/')
     into('build/jarLibs/')
     include('classes.jar')
-    rename('classes.jar', 'Cactus_v1.jar')
+    rename('classes.jar', 'Cactus_v' + releaseVersionName + '.jar')
 }
 
 
 task clearJar(type: Delete) {
-    delete 'build/jarLibs/' + 'Cactus_v1.jar'
+    delete 'build/jarLibs/'
 }
 
 makeJar.dependsOn(clearJar, build)

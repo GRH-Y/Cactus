@@ -150,7 +150,6 @@ public class ViewAssignment {
     }
 
 
-
     private static View getView(int rid, Object object) {
         View view = null;
         if (object instanceof Activity) {
@@ -225,7 +224,7 @@ public class ViewAssignment {
                     method = cache.getMethod(clx, methodName, CharSequence.class);
                     value = value == null ? "" : String.valueOf(value);
                 }
-                if (method != null) {
+                if (method != null && StringUtils.isNotEmpty((String) value)) {
                     method.setAccessible(true);
                     method.invoke(view, value);
                 }
@@ -234,7 +233,6 @@ public class ViewAssignment {
             e.printStackTrace();
         }
     }
-
 
 
 //    public static void setViewData(Activity activity, @IdRes int id, String methodName, Object value) {
