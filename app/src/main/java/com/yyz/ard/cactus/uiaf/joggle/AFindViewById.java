@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * view 注解
  * Created by Administrator on 2017/6/16.
  */
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AFindViewById {
 

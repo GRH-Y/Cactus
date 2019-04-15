@@ -12,7 +12,7 @@ import com.yyz.ard.cactus.uiaf.SingleHandler;
 import com.yyz.ard.cactus.uiaf.ViewAssignment;
 
 import connect.network.base.JavSessionCallBack;
-import connect.network.base.RequestEntity;
+import connect.network.http.RequestEntity;
 import util.ThreadAnnotation;
 
 

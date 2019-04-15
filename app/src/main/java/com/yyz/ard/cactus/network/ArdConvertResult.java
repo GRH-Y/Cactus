@@ -4,7 +4,7 @@ package com.yyz.ard.cactus.network;
 import com.yyz.ard.cactus.xml.XmlParser;
 
 import connect.network.base.JavConvertResult;
-import json.JsonUtils;
+import json.JsonEnvoy;
 import util.GZipUtils;
 import util.LogDog;
 
@@ -31,7 +31,7 @@ public class ArdConvertResult extends JavConvertResult {
         if (resultStr.startsWith("<?xml")) {
             entity = XmlParser.parserToEntity(resultStr, resultCls);
         } else {
-            entity = JsonUtils.toEntity(resultCls, resultStr);
+            entity = JsonEnvoy.toEntity(resultCls, resultStr);
         }
         return entity;
     }

@@ -4,11 +4,12 @@ import android.app.Dialog;
 import android.view.View;
 import android.widget.TextView;
 
+import com.yyz.ard.cactus.dialog.joggle.ADialogCallBack;
 import com.yyz.ard.cactus.dialog.joggle.IBaseDialog;
 
 import java.lang.reflect.Method;
 
-import util.StringUtils;
+import util.StringEnvoy;
 
 
 /**
@@ -47,7 +48,7 @@ public class EasyBaseDialog implements IBaseDialog {
 
 
     protected void setListener(TextView textView, String callBackMethodName) {
-        if (StringUtils.isNotEmpty(callBackMethodName)) {
+        if (StringEnvoy.isNotEmpty(callBackMethodName)) {
             textView.setVisibility(View.VISIBLE);
             if (clickListener != null) {
                 textView.setOnClickListener(v -> {

@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import util.SpeedReflex;
-import util.StringUtils;
+import util.StringEnvoy;
 
 /**
  * 解析实体自动为控件赋值
@@ -106,7 +106,7 @@ public class ViewAssignment {
                         Object value = field.get(data);
 
                         String className = annotation.className();
-                        if (StringUtils.isNotEmpty(className)) {
+                        if (StringEnvoy.isNotEmpty(className)) {
                             try {
                                 Class exec = Class.forName(className);
                                 Constructor constructor = exec.getConstructors()[0];
@@ -195,7 +195,7 @@ public class ViewAssignment {
                 }
 
                 Class adapterClass = cache.getClass(adapter);
-                methodName = StringUtils.isEmpty(methodName) ? "addAllData" : methodName;
+                methodName = StringEnvoy.isEmpty(methodName) ? "addAllData" : methodName;
                 Method method;
                 String[] parameter = methodName.split(":");
                 if (parameter.length > 1) {
@@ -224,7 +224,7 @@ public class ViewAssignment {
                     method = cache.getMethod(clx, methodName, CharSequence.class);
                     value = value == null ? "" : String.valueOf(value);
                 }
-                if (method != null && StringUtils.isNotEmpty((String) value)) {
+                if (method != null && StringEnvoy.isNotEmpty((String) value)) {
                     method.setAccessible(true);
                     method.invoke(view, value);
                 }
