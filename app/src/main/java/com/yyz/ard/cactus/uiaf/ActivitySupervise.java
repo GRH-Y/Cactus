@@ -31,12 +31,27 @@ public class ActivitySupervise {
         return sSupervise;
     }
 
-    public Activity getcurrentActivity() {
-        if (sActivityList.size() > 0) {
-            return sActivityList.get(sActivityList.size() - 1);
+    public Activity getCurrentActivity() {
+        synchronized (ActivitySupervise.class) {
+            if (sActivityList.size() > 0) {
+                return sActivityList.get(sActivityList.size() - 1);
+            }
         }
         return null;
     }
+
+    public Activity getCurrentActivity(Class<? extends Activity> clx) {
+        Activity target = null;
+        synchronized (ActivitySupervise.class) {
+            for (Activity activity : sActivityList) {
+                if (activity.getClass().equals(clx)) {
+                    target = activity;
+                }
+            }
+        }
+        return target;
+    }
+
 
     public void pushActivity(Activity activity) {
         synchronized (ActivitySupervise.class) {
@@ -48,7 +63,7 @@ public class ActivitySupervise {
 
     public void popActivity(Activity target) {
         synchronized (ActivitySupervise.class) {
-            if (!sActivityList.contains(target)) {
+            if (sActivityList.contains(target)) {
                 sActivityList.remove(target);
             }
         }
