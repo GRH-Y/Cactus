@@ -237,28 +237,40 @@ public class FindView {
 
     public <T extends View> T setVisibility(@IdRes int resId, boolean isVisible) {
         T view = findViewById(resId);
+        setVisibility(view, isVisible);
+        return view;
+    }
+
+    public void setVisibility(View view, boolean isVisible) {
         if (view != null) {
             boolean currentState = view.getVisibility() == View.VISIBLE;
             if (currentState != isVisible) {
                 view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
             }
         }
-        return view;
+    }
+
+    public void setVisibility(View view) {
+        if (view != null && view.getVisibility() != View.VISIBLE) {
+            view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setGone(View view) {
+        if (view != null && view.getVisibility() != View.GONE) {
+            view.setVisibility(View.GONE);
+        }
     }
 
     public <T extends View> T setVisibile(@IdRes int resId) {
         T view = findViewById(resId);
-        if (view != null && view.getVisibility() != View.VISIBLE) {
-            view.setVisibility(View.VISIBLE);
-        }
+        setVisibility(view);
         return view;
     }
 
     public <T extends View> T setGone(@IdRes int resId) {
         T view = findViewById(resId);
-        if (view != null && view.getVisibility() != View.GONE) {
-            view.setVisibility(View.GONE);
-        }
+        setGone(view);
         return view;
     }
 }

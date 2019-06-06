@@ -19,7 +19,7 @@ import java.util.Stack;
 public abstract class ManageFragmentActivity extends BaseActivity {
 
     protected Stack<BaseFragment> fragmentStack = new Stack<>();
-    private int fragmentIndex = -1;
+    private int currentFragmentIndex = -1;
 
 
     /**
@@ -67,8 +67,8 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      */
     public void showFragment(BaseFragment fragment, Bundle bundle, @IdRes int containerViewId) {
         if (fragment != null) {
-            if (fragmentIndex > -1) {
-                BaseFragment lastFragment = fragmentStack.get(fragmentIndex);
+            if (currentFragmentIndex > -1) {
+                BaseFragment lastFragment = fragmentStack.get(currentFragmentIndex);
                 if (fragment == lastFragment) {
                     //当前的fragment跟要显示的fragment相同则不需要任何处理
                     return;
@@ -87,12 +87,16 @@ public abstract class ManageFragmentActivity extends BaseActivity {
                 }
                 getFragmentManager().executePendingTransactions();
                 fragmentStack.add(fragment);
-                fragmentIndex = fragmentStack.size() - 1;
+                currentFragmentIndex = fragmentStack.size() - 1;
             } else {
                 fragmentTransaction.show(fragment);
-                fragmentTransaction.commitAllowingStateLoss();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    fragmentTransaction.commitNowAllowingStateLoss();
+                } else {
+                    fragmentTransaction.commitAllowingStateLoss();
+                }
                 getFragmentManager().executePendingTransactions();
-                fragmentIndex = findFragmentIndex(fragment.getClass().getName());
+                currentFragmentIndex = findFragmentIndex(fragment.getClass().getName());
             }
         }
     }
@@ -127,7 +131,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
     }
 
     public void backFragment(Bundle bundle) {
-        popFragment(fragmentIndex - 1);
+        popFragment(currentFragmentIndex - 1);
         showLastFragment(bundle);
     }
 
@@ -246,10 +250,10 @@ public abstract class ManageFragmentActivity extends BaseActivity {
                     fragmentTransaction.commitAllowingStateLoss();
                 }
                 getFragmentManager().executePendingTransactions();
-                fragmentIndex = size - 1;
+                currentFragmentIndex = size - 1;
             }
         } else {
-            fragmentIndex = -1;
+            currentFragmentIndex = -1;
         }
     }
 
@@ -263,7 +267,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
     public BaseFragment getCurrentFragment() {
         BaseFragment baseFragment = null;
         if (!fragmentStack.isEmpty()) {
-            baseFragment = fragmentStack.get(fragmentIndex);
+            baseFragment = fragmentStack.get(currentFragmentIndex);
         }
         return baseFragment;
     }

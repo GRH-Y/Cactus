@@ -4,6 +4,7 @@ package com.yyz.ard.cactus.uiaf;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 /**
@@ -20,12 +21,24 @@ public class BaseActivity extends AppCompatActivity {
 
     private boolean enableSlideFinish = false;
 
+    //是否点击返回键回到桌面
+    private boolean isMoveTaskToBack = false;
+
     /**
      * 设置是否开启左滑关闭当前界面
+     *
      * @param enableSlideFinish
      */
     public void setEnableSlideFinish(boolean enableSlideFinish) {
         this.enableSlideFinish = enableSlideFinish;
+    }
+
+    /**
+     * /设置点击返回键是否回到桌面
+     * @param moveTaskToBack
+     */
+    public void setMoveTaskToBack(boolean moveTaskToBack) {
+        isMoveTaskToBack = moveTaskToBack;
     }
 
     @Override
@@ -46,16 +59,29 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (enableSlideFinish) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                downX = event.getX();
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getX() - downX > 100) {
-                    finish();
-                    return true;
-                }
-            }
+            return execTouchEvent(event);
         }
         return super.onTouchEvent(event);
     }
 
+    protected boolean execTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            downX = event.getX();
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (event.getX() - downX > 100) {
+                finish();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && isMoveTaskToBack) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
