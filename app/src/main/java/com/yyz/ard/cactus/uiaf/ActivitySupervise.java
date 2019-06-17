@@ -82,11 +82,11 @@ public class ActivitySupervise {
         return target;
     }
 
-    public void popAll() {
-        synchronized (ActivitySupervise.class) {
-            sActivityList.clear();
-        }
-    }
+//    public void popAll() {
+//        synchronized (ActivitySupervise.class) {
+//            sActivityList.clear();
+//        }
+//    }
 
     public void finshAll() {
         synchronized (ActivitySupervise.class) {
@@ -94,6 +94,45 @@ public class ActivitySupervise {
                 activity.finish();
             }
             sActivityList.clear();
+        }
+    }
+
+    public void finshToTager(Class<? extends Activity> clx) {
+        synchronized (ActivitySupervise.class) {
+            for (int count = sActivityList.size() - 1; count >= 0; count--) {
+                Activity tmp = sActivityList.get(count);
+                if (tmp.getClass().equals(clx)) {
+                    sActivityList.remove(tmp);
+                    tmp.finish();
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    public void finshToTager(Activity target) {
+        synchronized (ActivitySupervise.class) {
+            if (sActivityList.contains(target)) {
+                for (int count = sActivityList.size() - 1; count >= 0; count--) {
+                    Activity tmp = sActivityList.get(count);
+                    if (tmp != target) {
+                        sActivityList.remove(tmp);
+                        tmp.finish();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void finshActivity(Activity target) {
+        synchronized (ActivitySupervise.class) {
+            if (sActivityList.contains(target)) {
+                sActivityList.remove(target);
+                target.finish();
+            }
         }
     }
 }
