@@ -301,7 +301,9 @@ public abstract class ManageFragmentActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         BaseFragment baseFragment = getCurrentFragment();
         if (baseFragment != null) {
-            return baseFragment.onKeyDown(keyCode, event);
+            if (baseFragment.onKeyDown(keyCode, event)) {
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }

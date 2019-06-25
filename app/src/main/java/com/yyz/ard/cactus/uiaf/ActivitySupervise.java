@@ -101,7 +101,7 @@ public class ActivitySupervise {
         synchronized (ActivitySupervise.class) {
             for (int count = sActivityList.size() - 1; count >= 0; count--) {
                 Activity tmp = sActivityList.get(count);
-                if (tmp.getClass().equals(clx)) {
+                if (!tmp.getClass().equals(clx)) {
                     sActivityList.remove(tmp);
                     tmp.finish();
                 } else {
