@@ -1,6 +1,7 @@
 package com.yyz.ard.cactus.uiaf;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * /设置点击返回键是否回到桌面
+     *
      * @param moveTaskToBack
      */
     public void setMoveTaskToBack(boolean moveTaskToBack) {
@@ -78,8 +80,10 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && isMoveTaskToBack) {
-            moveTaskToBack(true);
+        if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) && isMoveTaskToBack) {
+            Intent home = new Intent(Intent.ACTION_MAIN);
+            home.addCategory(Intent.CATEGORY_HOME);
+            startActivity(home);
             return true;
         }
         return super.onKeyDown(keyCode, event);

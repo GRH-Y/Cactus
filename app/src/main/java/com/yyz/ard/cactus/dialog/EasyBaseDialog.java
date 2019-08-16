@@ -4,8 +4,8 @@ import android.app.Dialog;
 import android.view.View;
 import android.widget.TextView;
 
-import com.yyz.ard.cactus.dialog.joggle.ADialogCallBack;
 import com.yyz.ard.cactus.dialog.joggle.IBaseDialog;
+import com.yyz.ard.cactus.uiaf.FindView;
 
 import java.lang.reflect.Method;
 
@@ -18,7 +18,8 @@ import util.StringEnvoy;
 public class EasyBaseDialog implements IBaseDialog {
 
     private EasyDialogConfig config;
-    private Object clickListener = null;
+    private FindView mFindView;
+    private Object callBackTarget = null;
     private Dialog dialog = null;
     private Object data;
 
@@ -27,15 +28,19 @@ public class EasyBaseDialog implements IBaseDialog {
     }
 
     protected void setDialog(Dialog dialog) {
-        this.dialog = dialog;
+        if (dialog != null) {
+            this.dialog = dialog;
+            mFindView = new FindView(dialog.getWindow().peekDecorView());
+        }
     }
 
     protected Dialog getDialog() {
         return dialog;
     }
 
-    public void setClickListener(Object clickListener) {
-        this.clickListener = clickListener;
+
+    public void setCallBackTarget(Object target) {
+        this.callBackTarget = target;
     }
 
     public void setData(Object data) {
@@ -47,20 +52,23 @@ public class EasyBaseDialog implements IBaseDialog {
     }
 
 
+    public FindView getFindView() {
+        return mFindView;
+    }
+
     protected void setListener(TextView textView, String callBackMethodName) {
         if (StringEnvoy.isNotEmpty(callBackMethodName)) {
             textView.setVisibility(View.VISIBLE);
-            if (clickListener != null) {
+            if (callBackTarget != null) {
                 textView.setOnClickListener(v -> {
-                    Class cls = clickListener.getClass();
+                    Class cls = callBackTarget.getClass();
                     try {
                         Method method = cls.getDeclaredMethod(callBackMethodName, getClass());
                         method.setAccessible(true);
-                        method.invoke(clickListener, this);
+                        method.invoke(callBackTarget, this);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 });
             }
         }
@@ -72,6 +80,6 @@ public class EasyBaseDialog implements IBaseDialog {
     }
 
 
-    protected void onController(Dialog dialog) {
+    protected void onController(Dialog dialog, FindView findView) {
     }
 }

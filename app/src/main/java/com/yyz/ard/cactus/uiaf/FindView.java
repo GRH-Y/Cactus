@@ -2,6 +2,7 @@ package com.yyz.ard.cactus.uiaf;
 
 
 import android.app.Activity;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -174,7 +175,7 @@ public class FindView {
         return view;
     }
 
-    public <T extends View> T setViewColor(@IdRes int resId, @ColorRes int color) {
+    public <T extends View> T setViewColor(@IdRes int resId, @ColorInt int color) {
         T view = findViewById(resId);
         if (view != null) {
             try {
@@ -256,6 +257,21 @@ public class FindView {
         }
     }
 
+    public boolean getVisibility(View view) {
+        if (view != null) {
+            return view.getVisibility() == View.VISIBLE;
+        }
+        return false;
+    }
+
+    public boolean getVisibility(@IdRes int resId) {
+        View view = findViewById(resId);
+        if (view != null) {
+            return view.getVisibility() == View.VISIBLE;
+        }
+        return false;
+    }
+
     public void setGone(View view) {
         if (view != null && view.getVisibility() != View.GONE) {
             view.setVisibility(View.GONE);
@@ -272,5 +288,13 @@ public class FindView {
         T view = findViewById(resId);
         setGone(view);
         return view;
+    }
+
+    public String getString(@StringRes int resId) {
+        if (mLayout != null) {
+            return mLayout.getContext().getString(resId);
+        } else {
+            return mActivity.getString(resId);
+        }
     }
 }

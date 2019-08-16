@@ -3,10 +3,11 @@ package com.yyz.ard.cactus.network;
 
 import com.yyz.ard.cactus.xml.XmlParser;
 
-import connect.network.base.JavConvertResult;
+import connect.network.http.tool.JavConvertResult;
 import json.JsonEnvoy;
-import util.GZipUtils;
-import util.LogDog;
+import log.LogDog;
+import storage.GZipUtils;
+import util.StringEnvoy;
 
 public class ArdConvertResult extends JavConvertResult {
 
@@ -18,7 +19,7 @@ public class ArdConvertResult extends JavConvertResult {
 
         Object entity;
         byte[] newData = result;
-        if ("gzip".equals(encode)) {
+        if (StringEnvoy.isNotEmpty(encode) && encode.contains("gzip")) {
             byte[] unCompressData = GZipUtils.unCompress(result);
             newData = unCompressData == null ? result : unCompressData;
         }

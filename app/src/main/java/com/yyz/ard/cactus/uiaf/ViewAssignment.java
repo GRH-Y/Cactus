@@ -216,17 +216,25 @@ public class ViewAssignment {
                 }
             } else {
                 methodName = methodName == null ? "setText" : methodName;
-                Method method = null;
-                if (value instanceof Integer) {
-                    method = cache.getMethod(clx, methodName, int.class);
-                }
-                if (method == null) {
-                    method = cache.getMethod(clx, methodName, CharSequence.class);
-                    value = value == null ? "" : String.valueOf(value);
-                }
-                if (method != null && StringEnvoy.isNotEmpty((String) value)) {
-                    method.setAccessible(true);
-                    method.invoke(view, value);
+                try {
+                    if (value instanceof Integer) {
+                        Method method = cache.getMethod(clx, methodName, int.class);
+                        if (method != null) {
+                            method.setAccessible(true);
+                            method.invoke(view, value);
+                        }
+                    }
+                } catch (Exception e) {
+                    Method method = cache.getMethod(clx, methodName, CharSequence.class);
+                    if (method != null) {
+                        if (value != null) {
+                            value = String.valueOf(value);
+                        }
+                        if (StringEnvoy.isNotEmpty((String) value)) {
+                            method.setAccessible(true);
+                            method.invoke(view, value);
+                        }
+                    }
                 }
             }
         } catch (Exception e) {

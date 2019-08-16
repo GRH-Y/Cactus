@@ -11,8 +11,8 @@ import android.view.Window;
 import com.yyz.ard.cactus.uiaf.SingleHandler;
 import com.yyz.ard.cactus.uiaf.ViewAssignment;
 
-import connect.network.base.JavSessionCallBack;
 import connect.network.http.RequestEntity;
+import connect.network.http.tool.JavSessionCallBack;
 import util.ThreadAnnotation;
 
 
@@ -91,7 +91,7 @@ public class ArdSessionCallBack extends JavSessionCallBack {
         @Override
         public void handleMessage(Message msg) {
             RequestEntity entity = (RequestEntity) msg.obj;
-            if (entity.isAutoSetDataForView() && entity.getResultData() != null) {
+            if (entity.isAutoSetDataForView() && entity.getRespondEntity() != null) {
                 Object object = entity.getViewTarget();
                 if (object == null) {
                     object = viewTarget;
@@ -99,17 +99,17 @@ public class ArdSessionCallBack extends JavSessionCallBack {
                 if (object == null) {
                     object = entity.getCallBackTarget();
                 }
-                ViewAssignment.setViewData(object, entity.getResultData());
+                ViewAssignment.setViewData(object, entity.getRespondEntity());
             }
 
             String methodName;
             Object resultData;
-            if (entity.getResultData() == null) {
+            if (entity.getRespondEntity() == null) {
                 methodName = entity.getErrorMethodName();
                 resultData = entity;
             } else {
                 methodName = entity.getSuccessMethodName();
-                resultData = entity.getResultData();
+                resultData = entity.getRespondEntity();
             }
             ThreadAnnotation.disposeMessage(methodName, entity.getCallBackTarget(), resultData);
         }
