@@ -175,14 +175,14 @@ public class FindView {
         return view;
     }
 
-    public <T extends View> T setViewColor(@IdRes int resId, @ColorInt int color) {
+    public <T extends View> T setViewColor(@IdRes int resId, @ColorRes int color) {
         T view = findViewById(resId);
         if (view != null) {
             try {
                 Class clx = view.getClass();
                 Method method = mCache.getMethod(clx, "setTextColor", int.class);
 //                Method method = clx.getMethod("setTextColor", int.class);
-                method.invoke(view, color);
+                method.invoke(view, view.getResources().getColor(color));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -295,6 +295,14 @@ public class FindView {
             return mLayout.getContext().getString(resId);
         } else {
             return mActivity.getString(resId);
+        }
+    }
+
+    public int getColor(@ColorRes int color) {
+        if (mLayout != null) {
+            return mLayout.getContext().getResources().getColor(color);
+        } else {
+            return mActivity.getResources().getColor(color);
         }
     }
 }

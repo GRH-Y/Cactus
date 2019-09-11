@@ -13,13 +13,15 @@ import java.util.List;
 
 public class PermissionsActivity extends BaseActivity implements IPermissionListener {
 
+    protected final int requestPermissionCode = 0x123;
+
     /**
      * 申请运行时权限
      *
      * @param permissions - 权限集合
      */
     protected void requestRuntimePermission(String... permissions) {
-        if (permissions == null || permissions.length == 0|| Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (permissions == null || permissions.length == 0 || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
         // 检查权限
@@ -42,7 +44,7 @@ public class PermissionsActivity extends BaseActivity implements IPermissionList
         if (noPermitList.size() > 0) {
             String[] array = new String[noPermitList.size()];
             array = noPermitList.toArray(array);
-            ActivityCompat.requestPermissions(this, array, 0x123);
+            ActivityCompat.requestPermissions(this, array, requestPermissionCode);
         } else {
             onALLGranted();
         }
@@ -58,7 +60,7 @@ public class PermissionsActivity extends BaseActivity implements IPermissionList
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 0x123) {
+        if (requestCode == requestPermissionCode) {
             if (grantResults.length > 0) {
                 List<String> permitList = new ArrayList<>();
                 List<String> noPermitList = new ArrayList<>();

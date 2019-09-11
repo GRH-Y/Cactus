@@ -56,11 +56,11 @@ public class EasyBaseDialog implements IBaseDialog {
         return mFindView;
     }
 
-    protected void setListener(TextView textView, String callBackMethodName) {
+    protected void setListener(View view, String callBackMethodName) {
         if (StringEnvoy.isNotEmpty(callBackMethodName)) {
-            textView.setVisibility(View.VISIBLE);
+            view.setVisibility(View.VISIBLE);
             if (callBackTarget != null) {
-                textView.setOnClickListener(v -> {
+                view.setOnClickListener(v -> {
                     Class cls = callBackTarget.getClass();
                     try {
                         Method method = cls.getDeclaredMethod(callBackMethodName, getClass());

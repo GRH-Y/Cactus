@@ -34,7 +34,9 @@ public class BaseFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        findView.destroy();
+        if (findView != null) {
+            findView.destroy();
+        }
         super.onDestroy();
     }
 

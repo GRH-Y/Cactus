@@ -217,12 +217,15 @@ public class ViewAssignment {
             } else {
                 methodName = methodName == null ? "setText" : methodName;
                 try {
+                    Method method;
                     if (value instanceof Integer) {
-                        Method method = cache.getMethod(clx, methodName, int.class);
-                        if (method != null) {
-                            method.setAccessible(true);
-                            method.invoke(view, value);
-                        }
+                        method = cache.getMethod(clx, methodName, int.class);
+                    } else {
+                        method = cache.getMethod(clx, methodName, CharSequence.class);
+                    }
+                    if (method != null) {
+                        method.setAccessible(true);
+                        method.invoke(view, value);
                     }
                 } catch (Exception e) {
                     Method method = cache.getMethod(clx, methodName, CharSequence.class);

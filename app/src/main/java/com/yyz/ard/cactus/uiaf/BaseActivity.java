@@ -54,7 +54,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        findView.destroy();
+        if (findView != null) {
+            findView.destroy();
+        }
         ActivitySupervise.getSupervise().popActivity(this);
     }
 
