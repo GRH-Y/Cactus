@@ -1,4 +1,4 @@
-package com.yyz.ard.cactus.util;
+package com.yyz.ard.cactus.technology;
 
 import android.content.Context;
 

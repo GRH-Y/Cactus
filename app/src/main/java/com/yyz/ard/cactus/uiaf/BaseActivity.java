@@ -85,8 +85,12 @@ public class BaseActivity extends AppCompatActivity {
         if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) && isMoveTaskToBack) {
             Intent home = new Intent(Intent.ACTION_MAIN);
             home.addCategory(Intent.CATEGORY_HOME);
-            startActivity(home);
-            return true;
+            try {
+                startActivity(home);
+                return true;
+            } catch (Exception e) {
+            }
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
