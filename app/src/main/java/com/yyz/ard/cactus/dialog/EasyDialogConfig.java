@@ -1,14 +1,14 @@
 package com.yyz.ard.cactus.dialog;
 
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 
 public class EasyDialogConfig {
 
-    private Context context;
+    private Activity activity;
     private int themeResId;
     private int layoutResID;
     private int dialogBackground = 0;
@@ -16,12 +16,12 @@ public class EasyDialogConfig {
     private int width;
     private int height;
 
-    public Context getContext() {
-        return context;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public int getThemeResId() {

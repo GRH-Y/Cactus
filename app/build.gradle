@@ -56,10 +56,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    //    implementation(name: 'hover_release_v2', ext: 'aar')
     implementation files('libs/CurrencyNetConnect.jar')
-    implementation files('libs/Hover_v2.jar')
     implementation files('libs/JavaUtils.jar')
+    implementation files('libs/Hover_v2.6.jar')
 }
 
 //打jar包

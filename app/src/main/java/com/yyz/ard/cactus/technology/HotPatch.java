@@ -32,7 +32,7 @@ public class HotPatch {
         String path = context.getExternalCacheDir().getAbsolutePath();
         byte[] jarData = FileHelper.readFile(jarPath);
         String[] array = jarPath.split(File.separator);
-        FileHelper.writFile(path + array[array.length - 1], jarData);
+        FileHelper.writeFile(path + array[array.length - 1], jarData);
     }
 
     public Class findClass(String className) {

@@ -28,12 +28,12 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      * @param fragment        要显示的fragment
      * @param containerViewId 布局文件id
      */
-    public void showFragment(BaseFragment fragment, @IdRes int containerViewId) {
-        showFragment(fragment, null, containerViewId);
+    public <T> T showFragment(BaseFragment fragment, @IdRes int containerViewId) {
+        return showFragment(fragment, null, containerViewId);
     }
 
-    public void showFragment(Class<? extends BaseFragment> cls, @IdRes int containerViewId) {
-        showFragment(cls, null, containerViewId);
+    public <T> T showFragment(Class<? extends BaseFragment> cls, @IdRes int containerViewId) {
+        return showFragment(cls, null, containerViewId);
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      * @param bundle          传递给fragment的数据
      * @param containerViewId 布局文件id
      */
-    public void showFragment(Class<? extends BaseFragment> cls, Bundle bundle, @IdRes int containerViewId) {
+    public <T> T showFragment(Class<? extends BaseFragment> cls, Bundle bundle, @IdRes int containerViewId) {
         if (cls != null) {
             BaseFragment fragment = null;
             try {
@@ -54,8 +54,9 @@ public abstract class ManageFragmentActivity extends BaseActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            showFragment(fragment, bundle, containerViewId);
+            return showFragment(fragment, bundle, containerViewId);
         }
+        return null;
     }
 
     /**
@@ -65,13 +66,13 @@ public abstract class ManageFragmentActivity extends BaseActivity {
      * @param bundle          传递给fragment的数据
      * @param containerViewId 布局文件id
      */
-    public void showFragment(BaseFragment fragment, Bundle bundle, @IdRes int containerViewId) {
+    public <T> T showFragment(BaseFragment fragment, Bundle bundle, @IdRes int containerViewId) {
         if (fragment != null) {
             if (currentFragmentIndex > -1) {
                 BaseFragment lastFragment = fragmentStack.get(currentFragmentIndex);
                 if (fragment == lastFragment) {
                     //当前的fragment跟要显示的fragment相同则不需要任何处理
-                    return;
+                    return (T) fragment;
                 }
                 hideFragment(lastFragment);
             }
@@ -99,6 +100,7 @@ public abstract class ManageFragmentActivity extends BaseActivity {
                 currentFragmentIndex = findFragmentIndex(fragment.getClass().getName());
             }
         }
+        return (T) fragment;
     }
 
     // -------------- showFragment --------------------

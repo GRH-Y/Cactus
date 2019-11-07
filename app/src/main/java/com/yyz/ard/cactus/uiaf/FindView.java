@@ -2,7 +2,6 @@ package com.yyz.ard.cactus.uiaf;
 
 
 import android.app.Activity;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -287,6 +286,17 @@ public class FindView {
     public <T extends View> T setGone(@IdRes int resId) {
         T view = findViewById(resId);
         setGone(view);
+        return view;
+    }
+
+    public <T extends View> T setVisibility(@IdRes int resId, int visibility) {
+        T view = findViewById(resId);
+        if (view != null) {
+            int nowStatus = view.getVisibility();
+            if (nowStatus != visibility) {
+                view.setVisibility(visibility);
+            }
+        }
         return view;
     }
 

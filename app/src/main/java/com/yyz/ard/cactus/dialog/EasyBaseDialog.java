@@ -2,7 +2,6 @@ package com.yyz.ard.cactus.dialog;
 
 import android.app.Dialog;
 import android.view.View;
-import android.widget.TextView;
 
 import com.yyz.ard.cactus.dialog.joggle.IBaseDialog;
 import com.yyz.ard.cactus.uiaf.FindView;

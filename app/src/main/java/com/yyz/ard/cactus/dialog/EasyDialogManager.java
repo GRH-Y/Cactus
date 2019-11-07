@@ -1,6 +1,7 @@
 package com.yyz.ard.cactus.dialog;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -12,7 +13,11 @@ public class EasyDialogManager {
 
     public static void showDialog(EasyBaseDialog baseDialog) {
         EasyDialogConfig config = baseDialog.getDialogConfig();
-        Dialog dialog = new Dialog(config.getContext(), config.getThemeResId());
+        Activity activity = config.getActivity();
+        if (activity == null || activity.isFinishing()) {
+            return;
+        }
+        Dialog dialog = new Dialog(config.getActivity(), config.getThemeResId());
         dialog.setCancelable(false);
         dialog.setContentView(config.getContentView());
         //设置dialog背景颜色
@@ -35,13 +40,15 @@ public class EasyDialogManager {
         }
         baseDialog.setDialog(dialog);
         baseDialog.onController(dialog, baseDialog.getFindView());
-        if (!dialog.isShowing()) {
+        if (!dialog.isShowing() && !activity.isFinishing()) {
             dialog.show();
         }
     }
 
     public static void dismissDialog(EasyBaseDialog baseDialog) {
         if (baseDialog != null) {
+            EasyDialogConfig config = baseDialog.getDialogConfig();
+            config.setActivity(null);
             Dialog dialog = baseDialog.getDialog();
             if (dialog != null) {
                 dialog.dismiss();

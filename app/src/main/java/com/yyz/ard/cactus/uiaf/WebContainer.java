@@ -67,6 +67,10 @@ public class WebContainer {
     }
 
     public void initWebView() {
+        initWebView(null);
+    }
+
+    public void initWebView(String ua) {
         WebSettings webSettings = mWebView.getSettings();
         // 支持启用缓存模式
         webSettings.setAppCacheEnabled(true);
@@ -88,14 +92,11 @@ public class WebContainer {
         // 设置 WebView 的缓存模式
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setTextZoom(100);
-        //解决android webview中图片不显示问题
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        //设置UA
+        if (StringEnvoy.isNotEmpty(ua)) {
+            String newUA = webSettings.getUserAgentString() + ua;
+            webSettings.setUserAgentString(newUA);
         }
-        webSettings.setBlockNetworkImage(false);
-        String ua = webSettings.getUserAgentString() + " zgj/2.9.0 Language/cn ChannelId/12 PlatformId/1";
-        webSettings.setUserAgentString(ua);
-
         //解决混合模式下图片加载不出来
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -140,6 +141,9 @@ public class WebContainer {
                 if (mSrlMainSwipeRefresh != null && mSrlMainSwipeRefresh.isRefreshing()) {
                     mSrlMainSwipeRefresh.setRefreshing(false);
                 }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    return;
+                }
                 if (mListener != null) {
                     mListener.onReceivedError(view, null, null, errorCode);
                 }
@@ -151,11 +155,14 @@ public class WebContainer {
                 if (mSrlMainSwipeRefresh != null && mSrlMainSwipeRefresh.isRefreshing()) {
                     mSrlMainSwipeRefresh.setRefreshing(false);
                 }
-                if (mListener != null) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        mListener.onReceivedError(view, request, error, error.getErrorCode());
-                    } else {
-                        mListener.onReceivedError(view, request, error, -100);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mListener != null) {
+                    // 或者： if(request.getUrl().toString() .equals(getUrl()))
+                    if (request.isForMainFrame()) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            mListener.onReceivedError(view, request, error, error.getErrorCode());
+                        } else {
+                            mListener.onReceivedError(view, request, error, -100);
+                        }
                     }
                 }
             }
@@ -182,7 +189,7 @@ public class WebContainer {
             //覆盖shouldOverrideUrlLoading 方法
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                LogDog.d("==> WebFragment loading url = " + url);
+                LogDog.d("==> WebContainer loading url = " + url);
                 if (url.startsWith("tel:")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     mWebView.getContext().startActivity(intent);
